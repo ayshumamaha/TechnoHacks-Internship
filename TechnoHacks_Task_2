@@ -1,1 +1,109 @@
+import re
+
+def markdown_to_html(markdown_text):
+
+    html = markdown_text
+
+    html = re.sub(r'^# (.*)$',
+                  r'<h1>\1</h1>',
+                  html,
+                  flags=re.MULTILINE)
+
+    html = re.sub(r'^## (.*)$',
+                  r'<h2>\1</h2>',
+                  html,
+                  flags=re.MULTILINE)
+
+    html = re.sub(r'\*\*(.*?)\*\*',
+                  r'<b>\1</b>',
+                  html)
+
+    html = re.sub(r'\*(.*?)\*',
+                  r'<i>\1</i>',
+                  html)
+
+    html = re.sub(
+        r'\[(.*?)\]\((.*?)\)',
+        r'<a href="\2">\1</a>',
+        html
+    )
+
+    lines = html.split("\n")
+
+    output = []
+
+    in_list = False
+
+    for line in lines:
+
+        if line.startswith("- "):
+
+            if not in_list:
+
+                output.append("<ul>")
+
+                in_list = True
+
+            output.append(
+                f"<li>{line[2:]}</li>"
+            )
+
+        else:
+
+            if in_list:
+
+                output.append("</ul>")
+
+                in_list = False
+
+            if line.strip() != "" and \
+               not line.startswith("<h"):
+
+                output.append(
+                    f"<p>{line}</p>"
+                )
+
+            else:
+
+                output.append(line)
+
+    if in_list:
+
+        output.append("</ul>")
+
+    return "\n".join(output)
+
+try:
+
+    input_file = input(
+        "Enter Markdown file name: "
+    )
+
+    output_file = input(
+        "Enter HTML file name: "
+    )
+
+    with open(input_file, "r") as file:
+
+        markdown_text = file.read()
+
+    html_content = markdown_to_html(
+        markdown_text
+    )
+
+    with open(output_file, "w") as file:
+
+        file.write(html_content)
+
+    print("HTML file generated successfully.")
+
+except FileNotFoundError:
+
+    print("Markdown file not found.")
+
+except Exception as error:
+
+    print("Error:", error)
+    
+    
 
