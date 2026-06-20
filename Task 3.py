@@ -1,0 +1,109 @@
+import random
+
+health = 100
+
+inventory = []
+
+print("===== ADVENTURE RPG =====")
+
+name = input("Enter your character name: ")
+
+print(f"\nWelcome, {name}!")
+
+print("\nYou arrive at a mysterious forest.")
+
+choice = input(
+    "Go LEFT or RIGHT? "
+).lower()
+
+if choice == "left":
+
+    print(
+        "\nYou discover a treasure chest."
+    )
+
+    inventory.append("Magic Sword")
+
+    print(
+        "You obtained Magic Sword!"
+    )
+
+    print(
+        "\nA Goblin attacks!"
+    )
+
+    if "Magic Sword" in inventory:
+
+        print(
+            "You defeated the Goblin."
+        )
+
+    else:
+
+        health -= 50
+
+elif choice == "right":
+
+    print(
+        "\nA wild wolf attacks!"
+    )
+
+    damage = random.randint(20, 50)
+
+    health -= damage
+
+    print(
+        f"You lost {damage} health."
+    )
+
+else:
+
+    print(
+        "Invalid path chosen."
+    )
+
+print("\nCurrent Health:", health)
+
+print(
+    "\nYou reach an ancient castle."
+)
+
+choice2 = input(
+    "Enter CASTLE or RUN? "
+).lower()
+
+if choice2 == "castle":
+
+    if health > 50:
+
+        print(
+            "\nYou defeat the Dark King."
+        )
+
+        print(
+            "You become the hero of the kingdom!"
+        )
+
+    else:
+
+        print(
+            "\nYou were too weak to win."
+        )
+
+elif choice2 == "run":
+
+    print(
+        "\nYou escaped safely."
+    )
+
+else:
+
+    print(
+        "Invalid choice."
+    )
+
+print("\nInventory:", inventory)
+
+print("\n===== GAME OVER =====")
+
+
